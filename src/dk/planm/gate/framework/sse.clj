@@ -44,8 +44,10 @@
   [watchers event-id element-fqn]
   (let [watchers' @watchers]
     (if-let [watcher (get-in watchers' [event-id ::out element-fqn])]
-      (let [{::keys [chan]} watcher
-            new-subscribers (swap! watchers update-in [event-id ::out element-fqn ::subscribers] (fnil dec 0))]
+      (let [_ (tap> [`remove-subscriber watcher])
+            {::keys [chan]} watcher
+            updated-watchers (swap! watchers update-in [event-id ::out element-fqn ::subscribers] (fnil dec 0))
+            new-subscribers (get-in updated-watchers [event-id ::out element-fqn ::subscribers])]
         (when (< new-subscribers 1)
           (async/close! chan)
           (swap! watchers update-in [event-id ::out] dissoc element-fqn)))
