@@ -1,7 +1,7 @@
-(ns dk.planm.gate.pages
+(ns dk.planm.gate.web.pages
   (:require
-    [hiccup.core :as h]
-    [hiccup.page :as page]))
+   [hiccup.core :as h]
+   [hiccup.page :as page]))
 
 (defn base-page
   "Constructs hiccup for base HTML, including header, stylesheets and Javascript"

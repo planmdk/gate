@@ -1,14 +1,14 @@
-(ns dk.planm.gate.framework.components
-  (:require [dk.planm.gate.framework.protocols :as fp]))
+(ns dk.planm.gate.core.elements
+  (:require [dk.planm.gate.core.protocols :as fp]))
 
 (defrecord Element [config body-fn]
   fp/Querying
   (query [_this attrs]
-    ((:fw/query-fn config) attrs))
+    ((::query-fn config) attrs))
 
   fp/Watching
   (watch [_this attrs]
-    (when-let [watch-fn (:fw/watch-fn config)]
+    (when-let [watch-fn (::watch-fn config)]
       (watch-fn attrs)))
 
   #?@(:clj [clojure.lang.IFn
@@ -34,16 +34,16 @@
 (defn elem*
   [name args meta body]
   (let [attrs (first args)
-        query (:fw/query meta)
+        query (:query meta)
         query-fn-fn (gensym (str name "-query-fn"))
-        watch (:fw/watch meta)
+        watch (:watch meta)
         watch-fn-fn (gensym (str name "-watch-fn"))
         elem-fn-name (gensym (str name "-elem-fn"))
         query-fn `(fn ~query-fn-fn [~attrs] ~query)
         watch-fn `(fn ~watch-fn-fn [~attrs] ~watch)
         config (cond-> {}
-                 watch (assoc :fw/watch-fn watch-fn)
-                 query (assoc :fw/query-fn query-fn))]
+                 watch (assoc ::watch-fn watch-fn)
+                 query (assoc ::query-fn query-fn))]
     `(element* ~config
                  (fn ~elem-fn-name ~args ~@body)
                  '~meta)))

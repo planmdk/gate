@@ -1,4 +1,4 @@
-(ns dk.planm.gate.framework.event-bus
+(ns dk.planm.gate.core.components.event-bus
   (:require
    [clojure.core.async :as async]
    [com.stuartsierra.component :as component]

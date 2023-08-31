@@ -1,11 +1,11 @@
-(ns dk.planm.gate.framework.feature
+(ns dk.planm.gate.core.components.feature
   (:require
    [clojure.core.async :as async]
    [com.brunobonacci.mulog :as u]
    [com.stuartsierra.component :as component]
    [com.wsscode.pathom3.connect.indexes :as pci]
    [com.wsscode.pathom3.interface.eql :as p.eql]
-   [dk.planm.gate.framework.event-bus :as event-bus]
+   [dk.planm.gate.core.components.event-busnt-bus :as event-bus]
    [com.wsscode.pathom3.plugin :as p.plugin]
    [dk.planm.gate.framework :as fw]))
 

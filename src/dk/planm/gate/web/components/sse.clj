@@ -1,9 +1,9 @@
-(ns dk.planm.gate.framework.sse
+(ns dk.planm.gate.web.components.sse
   (:require
    [clojure.core.async :as async]
    [com.brunobonacci.mulog :as u]
    [com.stuartsierra.component :as component]
-   [dk.planm.gate.framework.event-bus :as event-bus]
+   [dk.planm.gate.core.components.event-bus :as event-bus]
    [org.httpkit.server :as httpkit]
    [ring.util.response :as ru]
    [dk.planm.gate.framework.protocols :as fp]
@@ -134,7 +134,7 @@
 (defn add-watcher!
   [{::keys [watchers mult]} watch-entry result-compile-fn]
   (let [{:dk.planm.gate.framework/keys [attrs event-id element process]} watch-entry
-        element-fqn (get-in (meta element) [:dk.planm.gate.framework.components/fqn])]
+        element-fqn (get-in (meta element) [:dk.planm.gate.framework.elements/fqn]
     (swap! watchers (fn [watchers']
                       (let [existing-event-in-chan (get-in watchers' [event-id ::in])
                             existing-watch-chan (get-in watchers' [event-id ::out element-fqn ::chan])]

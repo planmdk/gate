@@ -1,4 +1,4 @@
-(ns dk.planm.gate.framework.protocols)
+(ns dk.planm.gate.core.protocols)
 
 (defprotocol Querying
   (query [this args]))

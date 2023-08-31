@@ -1,4 +1,4 @@
-(ns dk.planm.gate.webserver
+(ns dk.planm.gate.web.components.webserver
   (:require
     [org.httpkit.server         :as httpkit]
     [com.brunobonacci.mulog     :as u]
