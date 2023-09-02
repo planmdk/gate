@@ -134,7 +134,7 @@
 (defn add-watcher!
   [{::keys [watchers mult]} watch-entry result-compile-fn]
   (let [{:dk.planm.gate.framework/keys [attrs event-id element process]} watch-entry
-        element-fqn (get-in (meta element) [:dk.planm.gate.framework.elements/fqn]
+        element-fqn (get-in (meta element) [:dk.planm.gate.framework.elements/fqn])]
     (swap! watchers (fn [watchers']
                       (let [existing-event-in-chan (get-in watchers' [event-id ::in])
                             existing-watch-chan (get-in watchers' [event-id ::out element-fqn ::chan])]
