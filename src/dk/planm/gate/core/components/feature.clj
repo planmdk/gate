@@ -7,7 +7,7 @@
    [com.wsscode.pathom3.interface.eql :as p.eql]
    [dk.planm.gate.core.components.event-bus :as event-bus]
    [com.wsscode.pathom3.plugin :as p.plugin]
-   [dk.planm.gate.framework :as fw]))
+   [dk.planm.gate.core.pathom-plugins :as pathom-plugins]))
 
 ;;;
 ;;; :feature/subscriptions
@@ -19,10 +19,10 @@
         run-eql (fn [eql]
                   (let [env (-> base-env
                                 (pci/register (:subscription/indexes subscription))
-                                (p.plugin/register [(fw/mutation-success-publisher-plugin event-bus)
-                                                    fw/mutation-error-tap-plugin
-                                                    fw/resolver-error-tap-plugin
-                                                    fw/mutation-resolve-params-plugin]))]
+                                (p.plugin/register [(pathom-plugins/mutation-success-publisher-plugin event-bus)
+                                                    pathom-plugins/mutation-error-tap-plugin
+                                                    pathom-plugins/resolver-error-tap-plugin
+                                                    pathom-plugins/mutation-resolve-params-plugin]))]
                     (try
                       (p.eql/process env eql)
                       (catch Exception e
