@@ -5,17 +5,12 @@
    [com.stuartsierra.component :as component]
    [dk.planm.gate.web.middleware :as mw]
    [dk.planm.gate.web.resolvers :as resolvers]
+   [dk.planm.gate.web.route-utils :as route-utils]
    [reitit.ring :as ring]
    [ring.util.response :as ru]))
 
-(defn sub-keyword
-  [base-kw kw]
-  (keyword
-   (str (clojure.core/namespace base-kw) "." (clojure.core/name base-kw))
-   (clojure.core/name kw)))
-
 (comment
-  (sub-keyword :foo.bar/bax :moo)
+  (route-utils/sub-keyword :foo.bar/bax :moo)
   )
 
 (defn port->route
@@ -26,7 +21,7 @@
                   :query :get
                   :subscription :get)]
     [path
-     {:name (sub-keyword feature-ns name)
+     {:name (route-utils/sub-keyword feature-ns name)
       method {:middleware [(mw/wrap-pathom-env [resolvers/base-resolvers
                                                 feature-indexes
                                                 indexes])

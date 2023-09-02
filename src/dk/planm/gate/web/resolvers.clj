@@ -2,7 +2,7 @@
   (:require
    [clojure.set :as set]
    [com.wsscode.pathom3.connect.operation :as pco]
-   [dk.planm.gate.web.components.router :as router]
+   [dk.planm.gate.web.route-utils :as route-utils]
    [reitit.core :as r]))
 
 (pco/defresolver http-req-params
@@ -90,8 +90,8 @@
                             feature-name (:target.feature/name description)
                             port-name (:target.port/name description)
                             params (:target/params description)
-                            full-target-name (router/sub-keyword feature-name
-                                                                 port-name)]
+                            full-target-name (route-utils/sub-keyword feature-name
+                                                                      port-name)]
                         {target-name (path-to router
                                               full-target-name
                                               (or params {}))})))
