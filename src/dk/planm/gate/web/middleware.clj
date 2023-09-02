@@ -4,7 +4,7 @@
    [com.wsscode.pathom3.connect.indexes :as pci]
    [com.wsscode.pathom3.interface.eql :as p.eql]
    [com.wsscode.pathom3.plugin :as p.plugin]
-   [dk.planm.gate.framework.sse :as sse]
+   [dk.planm.gate.web.components.sse :as sse]
    [dk.planm.gate.web.pages :as pages]
    [dk.planm.gate.web.utils :as utils]
    [hiccup.core :as h]
