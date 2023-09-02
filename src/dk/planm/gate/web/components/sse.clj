@@ -6,7 +6,7 @@
    [dk.planm.gate.core.components.event-bus :as event-bus]
    [org.httpkit.server :as httpkit]
    [ring.util.response :as ru]
-   [dk.planm.gate.framework.protocols :as fp]
+   [dk.planm.gate.core.protocols :as fp]
    [clojure.string :as str]))
 
 (defn ->sse
