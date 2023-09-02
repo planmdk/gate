@@ -1,0 +1,2 @@
+{:lint-as {dk.planm.gate.core.elements/defelem clojure.core/defn
+           dk.planm.gate.core.elements/elem clojure.core/fn}}
