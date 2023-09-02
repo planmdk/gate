@@ -5,7 +5,7 @@
    [com.stuartsierra.component :as component]
    [com.wsscode.pathom3.connect.indexes :as pci]
    [com.wsscode.pathom3.interface.eql :as p.eql]
-   [dk.planm.gate.core.components.event-busnt-bus :as event-bus]
+   [dk.planm.gate.core.components.event-bus :as event-bus]
    [com.wsscode.pathom3.plugin :as p.plugin]
    [dk.planm.gate.framework :as fw]))
 
