@@ -1,4 +1,4 @@
-(ns dk.planm.gate.storage.components.xtdbage.components.xtdb
+(ns dk.planm.gate.storage.components.xtdb
   (:require
    [com.brunobonacci.mulog :as u]
    [xtdb.api :as xt]
