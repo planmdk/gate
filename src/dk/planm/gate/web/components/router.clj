@@ -44,8 +44,8 @@
   (mapv (partial port->route port-routes name indexes) ports))
 
 (defn fw-router
-  [routes]
-  (ring/router routes))
+  [routes config]
+  (ring/router routes config))
 
 (comment
   (feature->routes
@@ -89,7 +89,7 @@
              :features/count (count features)
              :routes/count (count routes-with-default))
       (with-meta
-        (fw-router routes-with-default)
+        (fw-router routes-with-default (::config router))
         {`component/stop #'stop-router
          ::started true}))
     router))
@@ -105,7 +105,7 @@
     router))
 
 (defn make-router
-  []
+  [config]
   (with-meta
-    {}
+    {::config config}
     {`component/start #'start-router}))
