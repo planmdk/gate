@@ -81,10 +81,10 @@
           routes-with-default (-> [["/gate-sse" {:name ::sse
                                                  :get {:handler (:ring-handler sse-bus)}}]
                                    ["/assets/*" (ring/create-resource-handler {:root "public"})]]
-                                  (into (when default-path
-                                          ["/" {:name ::root
-                                                :get {:handler (fn [_]
-                                                                 (ru/redirect default-uri))}}]))
+                                  (into (when default-uri
+                                          [["/" {:name ::root
+                                                 :get {:handler (fn [_]
+                                                                  (ru/redirect default-uri))}}]]))
                                   (into routes))]
       (u/log ::start
              :features/count (count features)
