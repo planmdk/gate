@@ -99,7 +99,7 @@
   (if (::started (meta router))
     (do
       (u/log ::stop)
-      (with-meta {}
+      (with-meta {::config (::config router)}
         {`component/start #'start-router
          ::started false}))
     router))
