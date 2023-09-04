@@ -77,13 +77,14 @@
                          (vals router))
           routes (mapcat (partial feature->routes route-table) features)
           default-path (get (meta route-table) ::default-path)
+          default-uri (get-in route-table default-path)
           routes-with-default (-> [["/gate-sse" {:name ::sse
                                                  :get {:handler (:ring-handler sse-bus)}}]
                                    ["/assets/*" (ring/create-resource-handler {:root "public"})]]
                                   (into (when default-path
                                           ["/" {:name ::root
                                                 :get {:handler (fn [_]
-                                                                 (ru/redirect default-path))}}]))
+                                                                 (ru/redirect default-uri))}}]))
                                   (into routes))]
       (u/log ::start
              :features/count (count features)
