@@ -14,26 +14,30 @@
   )
 
 (defn port->route
-  [port-routes feature-ns feature-indexes {:port/keys [name type indexes responder visibility]}]
+  [port-routes feature-ns feature-indexes {:port/keys [name type indexes parameters responder visibility]}]
   (let [path (get-in port-routes [feature-ns name])
         method (condp = type
                   :mutation :post
                   :query :get
-                  :subscription :get)]
+                  :subscription :get)
+        parameters-map (when parameters
+                         {:parameters parameters})]
     [path
      {:name (route-utils/sub-keyword feature-ns name)
-      method {:middleware [(mw/wrap-pathom-env [resolvers/base-resolvers
-                                                feature-indexes
-                                                indexes])
-                           (mw/wrap-process)]
-              :handler (fn [req]
-                         (when (and (not= visibility :public)
-                                    (not (buddy/authenticated? req)))
-                           (buddy/throw-unauthorized))
-                         (let [response (if (= type :subscription)
-                                          (responder req)
-                                          (responder))]
-                           (vary-meta response merge (meta req))))}}]))
+      method (merge
+              {:middleware [(mw/wrap-pathom-env [resolvers/base-resolvers
+                                                 feature-indexes
+                                                 indexes])
+                            (mw/wrap-process)]
+               :handler (fn [req]
+                          (when (and (not= visibility :public)
+                                     (not (buddy/authenticated? req)))
+                            (buddy/throw-unauthorized))
+                          (let [response (if (= type :subscription)
+                                           (responder req)
+                                           (responder))]
+                            (vary-meta response merge (meta req))))}
+              parameters-map)}]))
 
 (defn feature->routes
   [port-routes {:feature/keys [indexes name ports]}]
@@ -72,13 +76,15 @@
                          (filter (fn [v] (get (meta v) :dk.planm.gate/feature)))
                          (vals router))
           routes (mapcat (partial feature->routes route-table) features)
-          routes-with-default (into [["/" {:name ::root
-                                           :get {:handler (fn [_]
-                                                            (ru/redirect "/dash"))}}]
-                                     ["/gate-sse" {:name ::sse
-                                                   :get {:handler (:ring-handler sse-bus)}}]
-                                     ["/assets/*" (ring/create-resource-handler {:root "public"})]]
-                                    routes)]
+          default-path (get (meta route-table) ::default-path)
+          routes-with-default (-> [["/gate-sse" {:name ::sse
+                                                 :get {:handler (:ring-handler sse-bus)}}]
+                                   ["/assets/*" (ring/create-resource-handler {:root "public"})]]
+                                  (into (when default-path
+                                          ["/" {:name ::root
+                                                :get {:handler (fn [_]
+                                                                 (ru/redirect default-path))}}]))
+                                  (into routes))]
       (u/log ::start
              :features/count (count features)
              :routes/count (count routes-with-default))
