@@ -11,20 +11,21 @@
 (defn base-page
   "Constructs hiccup for base HTML, including header, stylesheets and Javascript"
   [styles children]
-  (let [body (if (vector? (first children))
-               (into [:body] children)
-               (conj [:body] children))]
-    (h/page
-     {:mode :html
-      :lang "en"
-      :hx-boost "true"}
-     [:head
-      [:meta {:charset "utf-8"}]
-      [:meta {:name "viewport"
-              :content "width=device-width, initial-scale=1.0"}]
-      [:script {:src "/assets/js/htmx.min.js" :type "application/javascript"}]
-      [:script {:src "/assets/js/_hyperscript.min.js" :type "application/javascript"}]
-      [:script {:src "/assets/js/sse.js" :type "application/javascript"}]
-      (apply include-css styles)
-      ]
-     body)))
+  (h/page
+   [:html
+    [:head
+     [:meta {:charset "utf-8"}]
+     [:meta {:name "viewport"
+             :content "width=device-width, initial-scale=1.0"}]
+     [:script {:src "/assets/js/htmx.min.js" :type "application/javascript"}]
+     [:script {:src "/assets/js/_hyperscript.min.js" :type "application/javascript"}]
+     [:script {:src "/assets/js/sse.js" :type "application/javascript"}]
+     (apply include-css styles)]
+    [:body children]]))
+
+(comment
+  (base-page
+   ["/foo.css" "/bar.css"]
+   [:<>
+    [:p "foo"]
+    [:p "bar"]]))
