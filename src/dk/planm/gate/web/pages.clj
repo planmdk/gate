@@ -1,6 +1,12 @@
 (ns dk.planm.gate.web.pages
   (:require
-   [hiccup.page :as page]))
+   [huff.core :as h]))
+
+(defn ^{:originally-from "hiccup.page"} include-css
+  "Include a list of external stylesheet files."
+  [& styles]
+  (for [style styles]
+    [:link {:type "text/css", :href style, :rel "stylesheet"}]))
 
 (defn base-page
   "Constructs hiccup for base HTML, including header, stylesheets and Javascript"
@@ -8,7 +14,7 @@
   (let [body (if (vector? (first children))
                (into [:body] children)
                (conj [:body] children))]
-    (page/html5
+    (h/page
      {:mode :html
       :lang "en"
       :hx-boost "true"}
@@ -19,6 +25,6 @@
       [:script {:src "/assets/js/htmx.min.js" :type "application/javascript"}]
       [:script {:src "/assets/js/_hyperscript.min.js" :type "application/javascript"}]
       [:script {:src "/assets/js/sse.js" :type "application/javascript"}]
-      (apply page/include-css styles)
+      (apply include-css styles)
       ]
      body)))

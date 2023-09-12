@@ -59,12 +59,6 @@
         [compiled-body nil]
         [compiled-body watchers-to-register]))))
 
-(defn- ->html
-  [compiled-body]
-  (if (vector? (first compiled-body))
-    (apply hh compiled-body)
-    (h/html compiled-body)))
-
 (defn- children
   [hiccup-node]
   (let [[_ attrs-or-child & children] hiccup-node]
@@ -84,13 +78,13 @@
           (doseq [watcher watchers-to-register]
             (sse/add-watcher! sse-bus watcher (fn [elem process-fn]
                                                 (let [[h _] (expand-elements elem process-fn)]
-                                                  (-> h children ->html))))))
+                                                  (-> h children h/html))))))
        (cond
          (map? compiled-body)
          compiled-body
 
          (= (get-in req [:headers "hx-request"]) "true")
-         (->html compiled-body)
+         (h/html compiled-body)
 
          :else
          (pages/base-page styles compiled-body))))))
