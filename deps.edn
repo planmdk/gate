@@ -12,6 +12,7 @@
            com.wsscode/pathom3        {:mvn/version "2023.01.31-alpha"}
            com.xtdb/xtdb-core         {:mvn/version "1.22.1"}
            hiccup/hiccup              {:mvn/version "1.0.5"}
+           io.github.escherize/huff   {:mvn/version "0.1.0"}
            metosin/malli {:mvn/version "0.11.0"}
            http-kit/http-kit          {:mvn/version "2.6.0"}
            metosin/reitit             {:mvn/version "0.5.18"}

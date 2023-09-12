@@ -7,7 +7,7 @@
    [dk.planm.gate.web.components.sse :as sse]
    [dk.planm.gate.web.pages :as pages]
    [dk.planm.gate.web.utils :as utils]
-   [hiccup.core :as h]
+   [huff.core :as h]
    [reitit.core :as r]
    [ring.util.response :as ru]))
 

@@ -1,6 +1,5 @@
 (ns dk.planm.gate.web.pages
   (:require
-   [hiccup.core :as h]
    [hiccup.page :as page]))
 
 (defn base-page
@@ -23,8 +22,3 @@
       (apply page/include-css styles)
       ]
      body)))
-
-(comment
-  (h/html (base-page ["/css/foo.css"] [:p "foo"]))
-  (h/html (base-page ["/css/foo.css"] []) [:div [:p "1 2 3"]])
-)
