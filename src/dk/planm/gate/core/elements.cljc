@@ -44,6 +44,8 @@
         config (cond-> {}
                  watch (assoc ::watch-fn watch-fn)
                  query (assoc ::query-fn query-fn))]
+    (when-not query (throw (ex-info (str "Missing :query meta on Gate element " name)
+                                    {:element-name name})))
     `(element* ~config
                  (fn ~elem-fn-name ~args ~@body)
                  '~meta)))

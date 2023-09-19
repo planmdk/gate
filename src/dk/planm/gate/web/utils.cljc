@@ -97,7 +97,7 @@
            (into [tag] children)))
        children))
    (if (every? vector? s)
-     (throw (ex-info "Hiccup with multiple roots not supported"
+     (throw (ex-info "Hiccup with multiple roots not supported. Consider wrapping in fragment tag, i.e. [:<> ...]"
                      {:hiccup s}))
      (hiccup-zip-child process s))))
 
