@@ -4,12 +4,12 @@
     [com.brunobonacci.mulog     :as u]
     [com.stuartsierra.component :as component]))
 
-(defrecord Webserver [instance]
+(defrecord Webserver [instance config]
   component/Lifecycle
   (start [this]
     (if instance
       this
-      (let [port 8080]
+      (let [{:keys [port] :or {port 3000}} config]
         (u/log ::start
                :port port)
         (assoc this :instance (httpkit/run-server (get-in this [:web-app :instance])
@@ -24,5 +24,5 @@
         (assoc this :instance nil)))))
 
 (defn make-server
-  []
-  (map->Webserver {}))
+  [config]
+  (map->Webserver {:config config}))
