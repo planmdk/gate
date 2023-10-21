@@ -12,6 +12,6 @@ The gate to your data.
 
 ## License
 
-Copyright © 2023 Matthias Varberg Ingesman
+Copyright © 2023 Planm - Matthias Varberg Ingesman
 
 Distributed under the Eclipse Public License version 1.0.
