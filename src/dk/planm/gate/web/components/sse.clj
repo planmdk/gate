@@ -7,6 +7,7 @@
    [org.httpkit.server :as httpkit]
    [ring.util.response :as ru]
    [dk.planm.gate.core.protocols :as fp]
+   [dk.planm.gate.web.utils :as utils]
    [clojure.string :as str]))
 
 (defn ->sse
@@ -133,7 +134,7 @@
 
 (defn add-watcher!
   [{::keys [watchers mult]} watch-entry result-compile-fn]
-  (let [{:dk.planm.gate.framework/keys [attrs event-id element process]} watch-entry
+  (let [{::utils/keys [attrs event-id element process]} watch-entry
         element-fqn (get-in (meta element) [:dk.planm.gate.framework.elements/fqn])]
     (swap! watchers (fn [watchers']
                       (let [existing-event-in-chan (get-in watchers' [event-id ::in])
